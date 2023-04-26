@@ -1,0 +1,18 @@
+package com.example.appnews.data.api
+
+import com.example.appnews.utils.Constants.Companion.API_KEY
+import retrofit2.http.Query
+
+interface NewsService {
+
+    suspend fun getNews(
+        @Query("q") query: String,
+        @Query("page") page: Int = 1,
+        @Query("apiKey") apiKey: String = API_KEY
+    )
+    suspend fun getCountryNews(
+        @Query("apiKey") apiKey: String = API_KEY,
+        @Query("page") page: Int = 1,
+        @Query("country") country: String = "ru"
+    )
+}
