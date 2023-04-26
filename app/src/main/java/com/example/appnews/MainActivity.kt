@@ -9,6 +9,8 @@ import androidx.fragment.app.findFragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.appnews.databinding.ActivityMainBinding
+import kotlinx.coroutines.*
+import okhttp3.Dispatcher
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,14 +18,19 @@ class MainActivity : AppCompatActivity() {
     private val binding get() = _binding!!
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(R.layout.fragment_splash)
-        Handler(Looper.myLooper()!!).postDelayed({
+/* Handler(Looper.myLooper()!!).postDelayed({
+     setContentView(binding.root)
+     binding.bottomNavigationView.setupWithNavController(
+         navController = this.findNavController(R.id.nav_host_fragment)
+     )
+ }, 5000)*/
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(5000)
+            _binding = ActivityMainBinding.inflate(layoutInflater)
             setContentView(binding.root)
-            binding.bottomNavigationView.setupWithNavController(
-                navController = this.findNavController(R.id.nav_host_fragment)
-            )
-        }, 5000)
+            binding.bottomNavigationView.setupWithNavController(navController = this@MainActivity.findNavController(R.id.nav_host_fragment))
+        }
     }
 
     override fun onDestroy() {
